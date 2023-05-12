@@ -34,13 +34,12 @@ async function productFetch() {
   productsDescription.textContent = data.description;
 
   //Color values//
-
-  for (let i = 0; i < data.colors.lenght; i++) {
-    console.log(i);
-    let color = document.createElement("option");
-    color.setAttribute("value", data[i].colors);
-    color.innerHTML = data[i].colors;
-    productsColor.appendChild(color);
+  var color = data.colors;
+  for (let i = 0; i < color.length; i++) {
+    listColors = document.createElement("option");
+    listColors.setAttribute("value", color[i]);
+    listColors.textContent = color[i];
+    productsColor.appendChild(listColors);
   }
 }
 
