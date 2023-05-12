@@ -16,7 +16,7 @@ async function productFetch() {
     var productsName = document.createElement("h3");
     var productsDescription = document.createElement("p");
 
-    section.href = "./product.html?id=" + data[i];
+    section.href = "./product.html?id=" + data[i]._id;
 
     productsImage.src = data[i].imageUrl;
     productsImage.setAttribute("alt", data[i].altTxt);
