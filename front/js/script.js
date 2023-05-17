@@ -10,11 +10,11 @@ async function productFetch() {
   let sectionItems = document.getElementById("items");
 
   for (i = 0; i < data.length; i++) {
-    var section = document.createElement("a");
-    var article = document.createElement("article");
-    var productsImage = document.createElement("img");
-    var productsName = document.createElement("h3");
-    var productsDescription = document.createElement("p");
+    let section = document.createElement("a");
+    let article = document.createElement("article");
+    let productsImage = document.createElement("img");
+    let productsName = document.createElement("h3");
+    let productsDescription = document.createElement("p");
 
     section.href = "./product.html?id=" + data[i]._id;
 

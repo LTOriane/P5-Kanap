@@ -1,11 +1,11 @@
-//Find the id into the URL//
+//Find the product's id into the URL//
 
-var str = window.location.href;
-var url = new URL(str);
-var searchParams = url.searchParams.get("id");
+let str = window.location.href;
+let url = new URL(str);
+let searchParams = url.searchParams.get("id");
 console.log(searchParams);
 
-//Loading product datas//
+//Loading product datas form API//
 
 async function productFetch() {
   const response = await fetch(
@@ -16,16 +16,16 @@ async function productFetch() {
 
   //Link products to the DOM//
 
-  let productsImageCreation = document.createElement("img");
-  let productsImage = document.querySelector(".item__img");
-  let productsName = document.querySelector("#title");
-  let productsPrice = document.querySelector("#price");
-  let productsDescription = document.querySelector("#description");
-  let productsColor = document.querySelector("#colors");
+  const productsImageCreation = document.createElement("img");
+  const productsImage = document.querySelector(".item__img");
+  const productsName = document.querySelector("#title");
+  const productsPrice = document.querySelector("#price");
+  const productsDescription = document.querySelector("#description");
+  const productsColor = document.querySelector("#colors");
 
   productsImage.appendChild(productsImageCreation);
 
-  // Link datas to the DOM//
+  // Link datas' product to the DOM//
 
   productsImageCreation.src = data.imageUrl;
   productsImageCreation.setAttribute("alt", data.altTxt);
@@ -34,7 +34,7 @@ async function productFetch() {
   productsDescription.textContent = data.description;
 
   //Color values//
-  var color = data.colors;
+  let color = data.colors;
   for (let i = 0; i < color.length; i++) {
     listColors = document.createElement("option");
     listColors.setAttribute("value", color[i]);
@@ -44,3 +44,42 @@ async function productFetch() {
 }
 
 productFetch();
+
+//Get items from the local Storage//
+
+function getCart() {
+  getCart = localStorage.getItem("cart");
+  console.log(getCart);
+  if (getCart === null) {
+    return [];
+  } else {
+    return JSON.parse(getCart);
+  }
+}
+getCart();
+
+//Add to cart function//
+
+const colorChoice = document.querySelector("#colors");
+const quantityChoice = document.querySelector("#quantity");
+
+let addToCart = document.querySelector("#addToCart");
+addToCart.addEventListener("click", function () {
+  let cart = getCart;
+  let items = new Object();
+  items.id = "id";
+  items.color = colorChoice.value;
+  items.quantity = parseInt(quantityChoice.value);
+  let sameItems = false;
+  for (let object of "cart") {
+    if (object.id == items.id && object.color == items.color) {
+      object.quantity >= items.quantity;
+      sameItems = true;
+    }
+    if ((sameItems = false)) {
+      cart.push(items);
+    }
+    localStorage.setItem(cart, JSON.stringify(items));
+    if (confirm("Article ajouté au panier"));
+  }
+});
