@@ -47,16 +47,7 @@ productFetch();
 
 //Get items from the local Storage//
 
-function getCart() {
-  getCart = localStorage.getItem("cart");
-  console.log(getCart);
-  if (getCart === null) {
-    return [];
-  } else {
-    return JSON.parse(getCart);
-  }
-}
-getCart();
+const getCart = () => JSON.parse(localStorage.getItem("items") ?? "[]");
 
 //Add to cart function//
 
@@ -65,21 +56,13 @@ const quantityChoice = document.querySelector("#quantity");
 
 let addToCart = document.querySelector("#addToCart");
 addToCart.addEventListener("click", function () {
-  let cart = getCart;
-  let items = new Object();
-  items.id = "id";
-  items.color = colorChoice.value;
-  items.quantity = parseInt(quantityChoice.value);
-  let sameItems = false;
-  for (let object of "cart") {
-    if (object.id == items.id && object.color == items.color) {
-      object.quantity >= items.quantity;
-      sameItems = true;
-    }
-    if ((sameItems = false)) {
-      cart.push(items);
-    }
-    localStorage.setItem(cart, JSON.stringify(items));
-    if (confirm("Article ajouté au panier"));
-  }
+  const newItem = {
+    id: searchParams,
+    color: colorChoice.value,
+    quantity: quantityChoice.value,
+  };
+  const newCart = [...getCart(), newItem];
+  localStorage.setItem("items", JSON.stringify(newCart));
+
+  // window.location.href = "../html/cart.html";
 });
