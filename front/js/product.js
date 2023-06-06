@@ -14,8 +14,6 @@ async function productFetch() {
   const data = await response.json();
   console.log(data);
 
-  //Link products to the DOM//
-
   const productsImageCreation = document.createElement("img");
   const productsImage = document.querySelector(".item__img");
   const productsName = document.querySelector("#title");
@@ -45,24 +43,70 @@ async function productFetch() {
 
 productFetch();
 
+// function getProductsDetail() {
+//   const productsDetail = productFetch();
+//   console.log(productsDetail);
+
+//   //Link products to the DOM//
+
+// getProductsDetail();
+
 //Get items from the local Storage//
 
-const getCart = () => JSON.parse(localStorage.getItem("items") ?? "[]");
+const cartItems = JSON.parse(localStorage.getItem("items") ?? "[]");
 
-//Add to cart function//
+//Selector for color and quantity//
 
 const colorChoice = document.querySelector("#colors");
 const quantityChoice = document.querySelector("#quantity");
 
-let addToCart = document.querySelector("#addToCart");
-addToCart.addEventListener("click", function () {
+//Eventlistener click//
+let button = document.querySelector("#addToCart");
+button.addEventListener("click", addToCart);
+
+//Add to cart function//
+
+function addToCart() {
+  //Error message if quantity or color isn't right//
+  if (
+    colorChoice.value == null ||
+    colorChoice.value == "" ||
+    quantityChoice.value == null ||
+    quantityChoice.value < 1 ||
+    quantityChoice.valuelue > 100
+  ) {
+    alert("veuillez selectionner une couleur et/ou une quantité");
+    return;
+  }
+
+  //New item creation to add to the local storage//
   const newItem = {
     id: searchParams,
     color: colorChoice.value,
-    quantity: quantityChoice.value,
+    quantity: parseInt(quantityChoice.value),
   };
-  const newCart = [...getCart(), newItem];
-  localStorage.setItem("items", JSON.stringify(newCart));
+  //console.log(newItem);
+  //console.log("items", cartItems);
 
-  // window.location.href = "../html/cart.html";
-});
+  if (!cartItems.length) {
+    const newCart = [...cartItems, newItem];
+    localStorage.setItem("items", JSON.stringify(newCart));
+  } else {
+    cartItems.forEach((item) => {
+      console.log("newItem", newItem);
+      console.log("item", item);
+      if (
+        newItem.id !== item.id ||
+        (newItem.id === item.id && newItem.color !== item.color)
+      ) {
+        const newCart = [...cartItems, newItem];
+        localStorage.setItem("items", JSON.stringify(newCart));
+      } else {
+        item.quantity = parseInt(item.quantity) + parseInt(newItem.quantity);
+        const newCart = [...cartItems];
+        localStorage.setItem("items", JSON.stringify(newCart));
+      }
+    });
+  }
+  window.location.href = "../html/cart.html";
+}
